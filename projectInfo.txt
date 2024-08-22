@@ -1,0 +1,4 @@
+make sure you have extension=intl  activated
+
+
+tech stack : nextjs client , laravel+filament dashboard server

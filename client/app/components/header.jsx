@@ -25,7 +25,8 @@ function Header() {
         <Link href={"/"}>Home</Link>
         <Link href={"/blog"}>Blog</Link>
         <Link href={"/about"}>About</Link>
-        <button className="rounded-full py-2 px-6 bg-black text-cyan-50">
+        <Link href={"/"}>Contact</Link>
+        <button className="rounded-full py-1.5 px-4 bg-black text-cyan-50">
           Follow Me
         </button>
       </nav>

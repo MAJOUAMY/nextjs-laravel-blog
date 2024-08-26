@@ -9,23 +9,25 @@ function Header() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
   return (
-    <div className="py-4 flex justify-between items-center relative">
-      <Image
-        src="/logo.png"
-        width={135}
-        height={80}
-        className="object-contain"
-      />
+    <div className="py-4  flex justify-between items-center relative">
+      <Link href="/">
+        <Image
+          src="/logo.png"
+          width={135}
+          height={80}
+          objectFit="contain"
+          // className="object-contain"
+          alt="logo"
+        />
+      </Link>
 
       <nav
         className={`${
           isMenuOpened ? "flex" : "hidden"
         } flex-col gap-6 font-Roboto font-bold w-[200px] md:w-auto md:flex md:flex-row md:static absolute top-full right-0 shadow md:shadow-none items-start md:items-center p-4 md:p-0 rounded bg-white md:bg-transparent`}
       >
-        <Link href={"/"}>Home</Link>
-        <Link href={"/blog"}>Blog</Link>
         <Link href={"/about"}>About</Link>
-        <Link href={"/"}>Contact</Link>
+
         <button className="rounded-full py-1.5 px-4 bg-black text-cyan-50">
           Follow Me
         </button>

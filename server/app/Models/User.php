@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image',
+        'bio'
     ];
 
     /**
@@ -43,5 +45,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+
+    public function socials()
+    {
+        return $this->hasMany(Social::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Closure;
 use Filament\Forms;
 use Filament\Tables;
+use Filament\Forms\Set;
 use App\Models\BlogPost;
 use App\Models\Category;
 use Filament\Forms\Form;
@@ -29,17 +30,19 @@ class BlogPostResource extends Resource
 {
     protected static ?string $model = BlogPost::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('title')
 
-                    ->reactive()
-                    ->required(),
-                TextInput::make('slug'),
+                TextInput::make('title')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+
+                Hidden::make('slug'),
+
                 Hidden::make('user_id')
                     ->default(fn() => Auth::id()),
                 FileUpload::make("thumbnail"),
@@ -58,8 +61,10 @@ class BlogPostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make("title"),
+                TextColumn::make("slug"),
+                TextColumn::make("category.name"),
                 ImageColumn::make('thumbnail')
-                
+
             ])
             ->filters([
                 //

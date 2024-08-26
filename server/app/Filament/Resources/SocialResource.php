@@ -4,29 +4,36 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Category;
+use App\Models\Social;
 use Filament\Forms\Form;
+use Nette\Utils\FileInfo;
 use Filament\Tables\Table;
-use League\Csv\Query\Ordering\Column;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\CategoryResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\CategoryResource\RelationManagers;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\Hidden;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\SocialResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\SocialResource\RelationManagers;
 
-class CategoryResource extends Resource
+class SocialResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Social::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-paper-clip';
+    protected static ?string $navigationIcon = 'heroicon-o-at-symbol';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make("name")->required()->maxLength(30)
+                TextInput::make("url"),
+                FileUpload::make("logo"),
+                Hidden::make('user_id')
+                    ->default(fn() => Auth::id()),
             ]);
     }
 
@@ -34,7 +41,8 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make("name")
+                TextColumn::make("url"),
+                ImageColumn::make("logo"),
             ])
             ->filters([
                 //
@@ -56,12 +64,13 @@ class CategoryResource extends Resource
         ];
     }
 
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListSocials::route('/'),
+            'create' => Pages\CreateSocial::route('/create'),
+            'edit' => Pages\EditSocial::route('/{record}/edit'),
         ];
     }
 }
